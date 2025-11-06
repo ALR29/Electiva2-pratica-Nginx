@@ -1,0 +1,52 @@
+# Versión de la sintaxis de Docker Compose
+version: '3.8'
+
+# Definición de los servicios
+services:
+
+  # c) Servicio de Servidor de Aplicación (PHP-Apache)
+  app:
+    # Construye la imagen a partir del Dockerfile en la carpeta ./app_image
+    build:
+      context: ./app_image
+    # Nombre del contenedor
+    container_name: mi_app_php
+    # Mapea el puerto 80 del host al 80 del contenedor
+    ports:
+      - "80:80"
+    # Mapea nuestro código fuente (./src) al directorio de Apache
+    volumes:
+      - ./src:/var/www/html
+    # Variables de entorno que pasamos a PHP (leídas en index.php)
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=mi_app_db
+      - DB_USER=user
+      - DB_PASSWORD=password
+    # Le dice a Docker que este servicio depende de 'db'
+    # 'app' no se iniciará hasta que 'db' se haya iniciado
+    depends_on:
+      - db
+
+  # d) Servicio de Base de Datos (MySQL)
+  db:
+    # Usa la imagen oficial de MySQL (versión 8.0)
+    image: mysql:8.0
+    # Nombre del contenedor
+    container_name: mi_db_mysql
+    # Reinicia siempre el contenedor si se cae
+    restart: always
+    # Variables de entorno para configurar MySQL
+    # Estas credenciales deben coincidir con las de arriba
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mi_app_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    # Mapea un volumen para que los datos de la BD no se pierdan
+    volumes:
+      - db_data:/var/lib/mysql
+
+# Definición del volumen nombrado
+volumes:
+  db_data:
