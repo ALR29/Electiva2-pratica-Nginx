@@ -1,0 +1,18 @@
+# Versión de la sintaxis de Docker Compose
+version: '3.8'
+
+services:
+  # Nombre de nuestro servicio
+  web:
+    # Usar la imagen oficial de Nginx más reciente
+    image: nginx:latest
+    
+    ports:
+      # Mapea el puerto 80 de tu máquina (host) al puerto 80 del contenedor
+      # Formato: "HOST:CONTENEDOR"
+      - "80:80"
+      
+    volumes:
+      # Mapea tu directorio local 'src' al directorio de Nginx
+      # Esto cumple con el requisito de tu práctica
+      - ./src:/usr/share/nginx/html

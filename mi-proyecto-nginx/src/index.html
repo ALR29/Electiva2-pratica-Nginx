@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Interactiva</title>
+    <!-- 1. Importamos Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. (Opcional) Importamos una fuente más bonita (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Aplicamos la fuente Inter a todo el cuerpo */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Contenedor principal centrado -->
+    <div class="min-h-screen flex items-center justify-center">
+        
+        <!-- Tarjeta principal -->
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
+            
+            <!-- Encabezado -->
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">¡Bienvenido!</h1>
+            
+            <!-- Párrafo de contexto -->
+            <p class="text-gray-600 mb-6">
+                Esta página está siendo servida por Nginx desde un contenedor de Docker.
+            </p>
+            
+            <!-- 
+              SECCIÓN INTERACTIVA (LA FUNCIÓN SIMPLE)
+            -->
+            
+            <!-- El botón que activará la función -->
+            <button id="toggleButton" class="bg-blue-600 text-white font-medium py-2 px-5 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors shadow-md">
+                ¡Haz clic para una sorpresa!
+            </button>
+            
+            <!-- El mensaje oculto -->
+            <div id="secretMessage" class="hidden mt-6 p-4 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg">
+                <p class="font-medium">¡Felicidades!</p>
+                <p class="text-sm">Angel Luis Rosario, matricula:2024-0079 creado y diseñado de esta pagina web a y me gusta el voley.</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- 3. El JavaScript para la funcionalidad -->
+    <script>
+        // Espera a que el contenido de la página esté cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Obtenemos el botón y el mensaje por sus IDs
+            const toggleButton = document.getElementById('toggleButton');
+            const secretMessage = document.getElementById('secretMessage');
+            
+            // Añadimos un "escuchador" de clics al botón
+            toggleButton.addEventListener('click', () => {
+                // Alterna la clase 'hidden' en el mensaje
+                // Tailwind usa 'hidden' para 'display: none'
+                secretMessage.classList.toggle('hidden');
+                
+                // (Opcional) Cambiamos el texto del botón
+                const isHidden = secretMessage.classList.contains('hidden');
+                if (isHidden) {
+                    toggleButton.textContent = '¡Haz clic para una sorpresa!';
+                } else {
+                    toggleButton.textContent = 'Ocultar mensaje';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
